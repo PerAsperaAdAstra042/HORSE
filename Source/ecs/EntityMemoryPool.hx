@@ -8,7 +8,6 @@ class EntityMemoryPool
 	// SINGLETON!!!!
 	public static final instance:EntityMemoryPool = new EntityMemoryPool(143675);
 
-	private var _numEntities:Int = 0;
 	private var _pool:Vector<Array<Component>> = null;
 	private var _tags:Vector<EntityTag> = null;
 	private var _actives:Vector<Bool> = null;
@@ -18,8 +17,6 @@ class EntityMemoryPool
 		this._pool = new Vector(maxEntities, new Array<Component>());
 		this._tags = new Vector(maxEntities, null);
 		this._actives = new Vector(maxEntities, false);
-		
-		//EntityMemoryPool.instance = this;
 	}
 
 	public function addEntity(tag:EntityTag) : Entity
@@ -29,8 +26,13 @@ class EntityMemoryPool
 			return null;
 		}
 
+		/* There's a chance old components exist at this ID; we should clean them up. */
+		_cleanUpComponentsAtIndex(index);
+
 		this._tags[index] = tag;
 		this._actives[index] = true;
+
+		/* I don't like the fact that we're creating new objects like this. */
 		return new Entity(index);
 	}
 
@@ -56,6 +58,7 @@ class EntityMemoryPool
 			return false;
 		}
 
+		this._pool[entityID][i].destroy();
 		this._pool[entityID][i] = null;
 		return true;
 	}
@@ -123,5 +126,12 @@ class EntityMemoryPool
 		}
 
 		return -1;	
+	}
+
+	private function _cleanUpComponentsAtIndex(entityID:Int) : Void
+	{
+		for (c in this._pool[entityID]) {
+			c = null;
+		}
 	}
 }

@@ -7,6 +7,6 @@ class CLifespan extends Component
 
 	public function new()
 	{
-		super();	
+
 	}
 }

@@ -1,4 +1,4 @@
-package ecs;
+package ecs.managers;
 
 class EntityManager
 {
@@ -20,17 +20,7 @@ class EntityManager
 
 	public function update() : Void
 	{
-		for (e in this._entities) {
-			if (!EntityMemoryPool.instance.isActive(e.id)) {
-				this._entitiesToRemove.push(e);
-			}
-		}
-
-		var e:Entity = null;
-		while (this._entitiesToRemove.length > 0) {
-			e = this._entitiesToRemove.pop();
-			this._entities.remove(e);
-		}
+		_removeInactiveEntities();
 	}
 
 	public function addEntity(tag:EntityTag) : Entity
@@ -49,5 +39,21 @@ class EntityManager
 	public function getEntitiesByTag(tag:EntityTag) : Array<Entity>
 	{
 		return this._entityMap[tag];
+	}
+
+
+	private function _removeInactiveEntities() : Void
+	{
+		for (e in this._entities) {
+			if (!EntityMemoryPool.instance.isActive(e.id)) {
+				this._entitiesToRemove.push(e);
+			}
+		}
+
+		var e:Entity = null;
+		while (this._entitiesToRemove.length > 0) {
+			e = this._entitiesToRemove.pop();
+			this._entities.remove(e);
+		}
 	}
 }

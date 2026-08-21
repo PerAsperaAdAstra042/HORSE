@@ -1,6 +1,6 @@
 package ecs;
 
-class Entity
+final class Entity
 {
 	private var _id:Int = 0;
 

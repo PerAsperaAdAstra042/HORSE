@@ -1,8 +1,8 @@
 package ecs;
 
-class Component
+abstract class Component
 {
-	public function new()
+	public function destroy() : Void
 	{
 		
 	}

@@ -3,11 +3,12 @@
 	
 	<meta title="HORSE" package="com.scythe.horse" version="1.0.0" company="STRADZ" />
 	<app main="Main" path="Export" file="HORSE" />
+	<window fps="60" background="#000000"/>	
 	
 	<source path="Source" />
 	
 	<haxelib name="openfl" />
-	
+	<haxelib name="starling" />
 	<assets path="Assets" rename="assets" />
 	
 </project>
