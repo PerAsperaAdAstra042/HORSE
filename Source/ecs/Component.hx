@@ -1,6 +1,9 @@
 package ecs;
 
-class Component {
+class Component
+{
+
+	public var isActive:Bool = true;
 
 	public function new()
 	{

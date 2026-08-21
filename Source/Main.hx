@@ -1,6 +1,6 @@
 package;
 
-import ecs.components.CTransform;
+import ecs.components.*;
 import openfl.display.Sprite;
 import ecs.*;
 
@@ -15,6 +15,12 @@ class Main extends Sprite
 		em.addEntity(EntityTag.DEFAULT);
 
 		var ents = em.getAllEntities();
+
+		balls.addComponent(new CTransform());
+		balls.addComponent(new CTransform3D());
+		balls.removeComponent(CTransform);
+		balls.addComponent(new CLifespan());
+
 		balls.destroy();
 		em.update();
 		trace(ents.length);

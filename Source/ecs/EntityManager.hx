@@ -21,7 +21,7 @@ class EntityManager
 	public function update() : Void
 	{
 		for (e in this._entities) {
-			if (!e.isAlive) {
+			if (!EntityMemoryPool.instance.isActive(e.id)) {
 				this._entitiesToRemove.push(e);
 			}
 		}
@@ -35,7 +35,7 @@ class EntityManager
 
 	public function addEntity(tag:EntityTag) : Entity
 	{
-		var e = new Entity(tag, this._totalEntities++);
+		var e = EntityMemoryPool.instance.addEntity(tag);
 		this._entities.push(e);
 		this._entityMap[tag].push(e);
 		return e;
