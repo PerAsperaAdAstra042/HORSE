@@ -51,6 +51,7 @@ class EntityMemoryPool
 		return true;
 	}
 
+	/* Please do not remove components manually unless you know what you're doing. */
 	public function removeComponent(entityID:Int, type:Class<Component>) : Bool
 	{
 		var i:Int = _getComponentIndex(entityID, type);
@@ -58,7 +59,6 @@ class EntityMemoryPool
 			return false;
 		}
 
-		this._pool[entityID][i].destroy();
 		this._pool[entityID][i] = null;
 		return true;
 	}

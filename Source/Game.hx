@@ -1,3 +1,9 @@
+import openfl.Assets;
+import starling.core.Starling;
+import ecs.managers.StarlingAssetManager;
+import starling.textures.Texture;
+import starling.textures.TextureAtlas;
+import starling.display.MovieClip;
 import ecs.components.CTransform;
 import ecs.components.CSprite;
 import ecs.systems.rendering.StarlingRenderer;
@@ -19,16 +25,25 @@ class Game extends Sprite
 
 		this._entityManager = new EntityManager();
 		this._starlingRenderer = new StarlingRenderer(this);
+		StarlingAssetManager.createInstance();
 
-		var quad:Quad = new Quad(200, 200, Color.RED);
-		var e = this._entityManager.addEntity(EntityTag.DEFAULT);
-		var c = new CTransform();
-		c.x = 100;
-		c.y = 200;
-		e.addComponent(new CSprite(quad));
-		e.addComponent(c);
+		var balls = Assets.getBitmapData("assets/texture.png");
+		StarlingAssetManager.instance.enqueue([Assets.getPath("assets/texture.xml")]);
+		StarlingAssetManager.instance.enqueue([Assets.getPath("assets/texture.png")]);
+		StarlingAssetManager.instance.loadQueue(() -> {
+			var atlas:TextureAtlas = StarlingAssetManager.instance.getTextureAtlas("texture");
+			var mc:MovieClip = new MovieClip(atlas.getTextures("stand/frame_"), 30);
+			var e = this._entityManager.addEntity(EntityTag.DEFAULT);
+			e.addComponent(new CSprite(mc));
+			var c = new CTransform();
+			c.x = 100; c.y = 100;
+			e.addComponent(c);
 
-		addChild(quad);
+			addChild(mc);
+			Starling.currentJuggler.add(mc);
+			mc.play();
+		});
+
 		addEventListener(Event.ENTER_FRAME, onEnterFrame);
 	}
 
@@ -36,12 +51,5 @@ class Game extends Sprite
 	{
 		var entities = this._entityManager.getAllEntities();
 		this._starlingRenderer.update(entities);
-
-		for (e in entities) {
-			if (e.hasComponent(CTransform)) {
-				var c:CTransform = cast e.getComponent(CTransform);
-				c.x += 1;
-			}
-		}
 	}
 }

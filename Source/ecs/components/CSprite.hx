@@ -1,7 +1,6 @@
 package ecs.components;
 
-import ecs.managers.StarlingAssetManager;
-import starling.display.Sprite;
+import starling.display.DisplayObject;
 
 
 class CSprite extends Component
@@ -11,9 +10,5 @@ class CSprite extends Component
 	public function new(sprite:Any)
 	{
 		this.sprite = sprite;
-	}
-
-	public function createEmptyStarlingSprite() : Void
-	{
 	}
 }
