@@ -56,7 +56,7 @@ class EntityMemoryPool
 			return false;
 		}
 
-		this._pool[entityID][i].isActive = false;
+		this._pool[entityID][i] = null;
 		return true;
 	}
 
@@ -103,7 +103,7 @@ class EntityMemoryPool
 	{
 		var i:Int = 0;
 		while (i < this._pool[entityID].length) {
-			if (!this._pool[entityID][i].isActive) {
+			if (this._pool[entityID][i] == null) {
 				return i;
 			}
 
