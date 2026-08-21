@@ -35,7 +35,13 @@ class Game extends Sprite
 	private function onEnterFrame(event:Event, dt:Float) : Void
 	{
 		var entities = this._entityManager.getAllEntities();
-
 		this._starlingRenderer.update(entities);
+
+		for (e in entities) {
+			if (e.hasComponent(CTransform)) {
+				var c:CTransform = cast e.getComponent(CTransform);
+				c.x += 1;
+			}
+		}
 	}
 }
